@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quote of the Day | Elevate Your Vibe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+       
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+            font-family: 'Poppins', sans-serif;
+            color: white;
+        }
+       
+        body { position: relative; }
+       
+        .particles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #1a0033 0%, #000 70%);
+            transition: background 2s ease;
+            z-index: 1;
+        }
+       
+        .particle {
+            position: absolute;
+            background: #ffd700;
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: float 20s infinite linear;
+        }
+       
+        @keyframes float {
+            0% { transform: translateY(100vh) translateX(0) scale(0); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-100px) translateX(100px) scale(1); opacity: 0; }
+        }
+       
+        #landing {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            transition: opacity 1.2s ease;
+            padding: 20px;
+        }
+       
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            background: linear-gradient(90deg, #ffd700, #ffaa00, #ff8800);
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(-50px);
+            animation: fadeDown 1.5s forwards 0.5s;
+        }
+       
+        .tagline {
+            font-size: 1.6rem;
+            font-weight: 300;
+            margin-bottom: 50px;
+            opacity: 0;
+            animation: fadeIn 2s forwards 1.5s;
+            line-height: 1.5;
+        }
+       
+        .enter-btn {
+            padding: 18px 50px;
+            font-size: 1.4rem;
+            background: linear-gradient(45deg, #ffd700, #ffaa00);
+            color: black;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            opacity: 0;
+            transform: scale(0.8);
+            animation: bounceIn 1.2s forwards 2.2s;
+            transition: all 0.3s;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+        }
+       
+        .enter-btn:hover, .enter-btn:active {
+            transform: scale(1.1);
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
+        }
+       
+        @keyframes fadeDown { to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 1; transform: scale(1.15); }
+            70% { transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+       
+        #main {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+            opacity: 0;
+            transition: opacity 1.5s ease 0.5s;
+            z-index: 5;
+        }
+       
+        #main.active {
+            display: flex;
+            opacity: 1;
+        }
+       
+        h1 {
+            font-size: 3rem;
+            background: linear-gradient(90deg, #ffd700, #ffaa00);
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 40px;
+        }
+       
+        #quote {
+            font-size: 1.8rem;
+            max-width: 800px;
+            margin: 30px auto;
+            font-style: italic;
+            line-height: 1.7;
+            min-height: 120px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+       
+        #quote.visible { opacity: 1; transform: translateY(0); }
+       
+        #author {
+            font-size: 1.4rem;
+            color: #ffd700;
+            margin: 20px 0 40px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease 0.8s, transform 1s ease 0.8s;
+        }
+       
+        #author.visible { opacity: 1; transform: translateY(0); }
+       
+        button#newQuote, #downloadBtn {
+            padding: 18px 50px;
+            font-size: 1.4rem;
+            background: linear-gradient(45deg, #ffd700, #ffaa00);
+            color: black;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            margin: 10px;
+        }
+       
+        button#newQuote:hover, #downloadBtn:hover,
+        button#newQuote:active, #downloadBtn:active {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(255, 215, 0, 0.7);
+        }
+       
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 1.4rem;
+            color: #ffd700;
+            background: none;
+            border: none;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: 0.3s;
+            z-index: 10;
+            padding: 10px;
+        }
+       
+        .back-btn:hover, .back-btn:active { opacity: 1; transform: scale(1.2); }
+        /* Mobile */
+        @media (max-width: 768px) {
+            .logo { font-size: 3.8rem; }
+            .tagline { font-size: 1.5rem; margin-bottom: 60px; }
+            #quote { font-size: 1.7rem; padding: 0 15px; }
+            h1 { font-size: 2.6rem; }
+            .enter-btn, #newQuote, #downloadBtn { padding: 20px 50px; font-size: 1.4rem; }
+        }
+        @media (max-width: 480px) {
+            .logo { font-size: 3.2rem; }
+            #quote { font-size: 1.5rem; }
+            h1 { font-size: 2.3rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    <section id="landing">
+        <h1 class="logo">Quote of the Day</h1>
+        <p class="tagline">Elevate your energy.<br>One vibe at a time.</p>
+        <button class="enter-btn" onclick="enterSite()">See Todays Quote </button>
+    </section>
+    <section id="main">
+        <button class="back-btn" onclick="goBack()">←</button>
+        <h1>Quote of the Day</h1>
+        <div id="quote">Loading your daily Quote...</div>
+        <div id="author"></div>
+        <button id="newQuote" onclick="newQuote()">New Quote</button>
+        <button id="downloadBtn" onclick="downloadQuoteAsImage()">Download as Image</button>
+    </section>
+    <script>
+        // Particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 40; i++) {
+            const p = document.createElement('div');
+            p.classList.add('particle');
+            p.style.width = p.style.height = Math.random() * 80 + 20 + 'px';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.animationDelay = Math.random() * 20 + 's';
+            p.style.animationDuration = Math.random() * 20 + 20 + 's';
+            particlesContainer.appendChild(p);
+        }
+        const quotes = [
+            { text: "Your energy creates your reality.", author: "Unknown" },
+            { text: "You glow differently when your soul is at peace.", author: "Vibe Master" },
+            { text: "The universe responds to your frequency.", author: "Cosmic Truth" },
+            { text: "Stay close to people who feel like sunlight.", author: "Aura Guide" },
+            { text: "Your aura is your signature in the universe.", author: "Soul Echo" },
+            { text: "Protect your energy. It's sacred.", author: "Energy Keeper" },
+            { text: "You are made of stardust and magic.", author: "Celestial Being" },
+            { text: "Let your vibe attract your tribe.", author: "Frequency Law" },
+            { text: "Good vibes only? Nah. Real vibes only.", author: "Truth Seeker" },
+            { text: "Your soul knows the way. Trust it.", author: "Inner Light" },
+            { text: "Raise your vibration. Change your life.", author: "High Frequency" },
+            { text: "Peace begins when expectation ends.", author: "Zen Aura" },
+            { text: "Match the frequency of the reality you want.", author: "Manifestor" },
+            { text: "Energy flows where intention goes.", author: "Mindful Soul" },
+            { text: "Your vibe speaks louder than your words.", author: "Silent Power" },
+            { text: "Be the energy you want to attract.", author: "Law of Attraction" },
+            { text: "Radiate love and it will return multiplied.", author: "Heart Center" },
+            { text: "Clear your mind, cleanse your aura.", author: "Spiritual Hygiene" },
+            { text: "Vibrate so high that negativity can't touch you.", author: "Ascended One" },
+            { text: "Your energy introduces you before you speak.", author: "First Impression" },
+            { text: "Align your focus with your highest excitement.", author: "Passion Path" },
+            { text: "Everything is energy. Match accordingly.", author: "Quantum Truth" },
+            { text: "Heal your energy, heal your life.", author: "Inner Healer" },
+            { text: "You are not a drop in the ocean. You are the entire ocean in a drop.", author: "Rumi" },
+            { text: "The higher your vibration, the brighter your light.", author: "Lightworker" },
+            { text: "Choose peace over being right.", author: "Ego Tamer" },
+            { text: "Your aura attracts your reality.", author: "Mirror Law" },
+            { text: "Let go of what no longer vibrates with you.", author: "Release Master" },
+            { text: "Gratitude is the highest vibration.", author: "Thankful Heart" },
+            { text: "What you think, you become. What you feel, you attract.", author: "Buddha" },
+            { text: "Surround yourself with high-frequency souls.", author: "Tribe Builder" },
+            { text: "Your thoughts are magnetic. Choose wisely.", author: "Mind Magnet" },
+            { text: "Love is the highest frequency.", author: "Universal Truth" },
+            { text: "Energy never lies.", author: "Intuition Guide" },
+            { text: "Shift your energy, shift your life.", author: "Transformation" },
+            { text: "You are the universe experiencing itself.", author: "Alan Watts" },
+            { text: "Where attention goes, energy flows.", author: "Focus Master" },
+            { text: "Become the vibration you seek.", author: "Alignment" },
+            { text: "Your soul is rooted in love. Return to it.", author: "Homecoming" },
+            { text: "Everything vibrates. Choose your song.", author: "Cosmic DJ" },
+            { text: "Silence your mind to hear your soul.", author: "Stillness" },
+            { text: "You are infinite potential in human form.", author: "Divine Spark" },
+            { text: "Forgiveness frees your energy.", author: "Liberation" },
+            { text: "The energy you give is the energy you receive.", author: "Karma Flow" },
+            { text: "Breathe in peace, exhale chaos.", author: "Breathwork" },
+            { text: "Your heart knows what your mind cannot explain.", author: "Heart Wisdom" },
+            { text: "Embrace the glorious mess that you are.", author: "Liz Gilbert" },
+            { text: "You are worthy of the love you keep trying to give others.", author: "Self Love" },
+            { text: "The wound is where the light enters.", author: "Rumi" },
+            { text: "Trust the timing of your life.", author: "Divine Timing" },
+            { text: "Growth begins at the end of your comfort zone.", author: "Evolution" },
+            { text: "You are exactly where you need to be.", author: "Present Moment" },
+            { text: "Let your faith be bigger than your fear.", author: "Courage" },
+            { text: "Magic happens when you believe in yourself.", author: "Self Belief" },
+            { text: "Your limitations are only illusions.", author: "Mindset Shift" },
+            { text: "The universe always has your back.", author: "Trust Fall" },
+            { text: "Bloom where you are planted.", author: "Resilience" },
+            { text: "Your journey is uniquely yours. Honor it.", author: "Pathwalker" },
+            { text: "Kindness is free. Sprinkle it everywhere.", author: "Compassion" },
+            { text: "You are powerful beyond measure.", author: "Marianne Williamson" },
+            { text: "Choose joy. It's always available.", author: "Joy Seeker" },
+            { text: "Every day is a new beginning.", author: "Fresh Start" },
+            { text: "Your presence is your power.", author: "Being" },
+            { text: "Speak to yourself like someone you love.", author: "Inner Voice" },
+            { text: "The best is yet to come.", author: "Optimism" },
+            { text: "You are enough. Exactly as you are.", author: "Worthiness" },
+            { text: "Surrender to what is. Let go of what was.", author: "Acceptance" },
+            { text: "Your light inspires others to shine.", author: "Inspiration" },
+            { text: "Dance with the rhythm of your soul.", author: "Freedom" },
+            { text: "Everything you seek is already within.", author: "Inner Treasure" },
+            { text: "Create the life you can't wait to wake up to.", author: "Dream Builder" },
+            { text: "Your vibe sets the tone for your day.", author: "Morning Ritual" },
+            { text: "Be gentle with yourself. You're doing your best.", author: "Self Compassion" },
+            { text: "The stars are aligned for you.", author: "Cosmic Support" },
+            { text: "You are a walking miracle.", author: "Gratitude" },
+            { text: "Embody the energy of abundance.", author: "Prosperity" },
+            { text: "Your intuition is your superpower.", author: "Inner Knowing" },
+            { text: "Rise like the sun. Shine like the stars.", author: "Radiance" },
+            { text: "Life is happening for you, not to you.", author: "Perspective" },
+            { text: "You are divinely guided and protected.", author: "Faith" },
+            { text: "Love yourself first. The rest follows.", author: "Foundation" },
+            { text: "Your energy is contagious. Make it positive.", author: "Influence" },
+            { text: "Dream big. Vibrate higher.", author: "Ambition" },
+            { text: "The universe conspires in your favor.", author: "Synchronicity" },
+            { text: "You are a magnet for miracles.", author: "Belief" },
+            { text: "Peace is always one breath away.", author: "Calm" },
+            { text: "Your soul is infinite. Act like it.", author: "Eternal" },
+            { text: "Choose love over fear every time.", author: "Courageous Heart" },
+            { text: "You are the creator of your own reality.", author: "Empowerment" },
+            { text: "Shine so bright that others find their light.", author: "Leader" },
+            { text: "The magic you seek is in the work you're avoiding.", author: "Action" },
+            { text: "Your future is as bright as your faith.", author: "Vision" },
+            { text: "Be the calm in someone else's storm.", author: "Support" },
+            { text: "Everything changes when you change your energy.", author: "Transformation" },
+            { text: "You are worthy of all good things.", author: "Deserving" },
+            { text: "Let your soul glow unapologetically.", author: "Authenticity" },
+            { text: "The best version of you is waiting.", author: "Potential" }
+        ];
+        const vibeColors = [
+            'radial-gradient(circle at 50% 50%, #1a0033 0%, #000 70%)',
+            'radial-gradient(circle at 30% 50%, #33001a 0%, #000 70%)',
+            'radial-gradient(circle at 70% 30%, #00331a 0%, #000 70%)',
+            'radial-gradient(circle at 50% 70%, #1a1a00 0%, #000 70%)',
+            'radial-gradient(circle at 20% 80%, #001a33 0%, #000 70%)'
+        ];
+        let currentBg = vibeColors[0];
+        function enterSite() {
+            document.getElementById('landing').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('landing').style.display = 'none';
+                document.getElementById('main').classList.add('active');
+                newQuote();
+            }, 1200);
+        }
+        function goBack() {
+            document.getElementById('main').classList.remove('active');
+            setTimeout(() => {
+                document.getElementById('landing').style.display = 'flex';
+                document.getElementById('landing').style.opacity = '1';
+            }, 300);
+        }
+        function newQuote() {
+            const quoteEl = document.getElementById('quote');
+            const authorEl = document.getElementById('author');
+           
+            quoteEl.classList.remove('visible');
+            authorEl.classList.remove('visible');
+           
+            setTimeout(() => {
+                const random = Math.floor(Math.random() * quotes.length);
+                const q = quotes[random];
+                quoteEl.textContent = `"${q.text}"`;
+                authorEl.textContent = `— ${q.author}`;
+               
+                quoteEl.classList.add('visible');
+                authorEl.classList.add('visible');
+               
+                const randomVibe = Math.floor(Math.random() * vibeColors.length);
+                currentBg = vibeColors[randomVibe];
+                document.querySelector('.particles').style.background = currentBg;
+            }, 300);
+        }
+        // OFFLINE IMAGE DOWNLOAD USING CANVAS
+        function downloadQuoteAsImage() {
+            const quote = document.getElementById('quote').textContent;
+            const author = document.getElementById('author').textContent;
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+           
+            // Set canvas size (Instagram square friendly)
+            canvas.width = 1080;
+            canvas.height = 1080;
+            // Background
+            const gradientBg = ctx.createRadialGradient(
+                canvas.width / 2, canvas.height / 2, 0,
+                canvas.width / 2, canvas.height / 2, canvas.width / 2
+            );
+            gradientBg.addColorStop(0, currentBg.match(/#[0-9a-fA-F]{6}/g)?.[0] || '#1a0033');
+            gradientBg.addColorStop(1, '#000000');
+            ctx.fillStyle = gradientBg;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // Golden gradient for text
+            const textGradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            textGradient.addColorStop(0, '#ffd700');
+            textGradient.addColorStop(0.5, '#ffaa00');
+            textGradient.addColorStop(1, '#ff8800');
+            ctx.fillStyle = textGradient;
+            ctx.textAlign = 'center';
+            // Title
+            ctx.font = 'bold 80px "Playfair Display", serif';
+            ctx.fillText('Quote of the Day', canvas.width / 2, 180);
+            // Quote text (wrap if long)
+            ctx.font = 'italic 70px Poppins, sans-serif';
+            wrapText(ctx, quote, canvas.width / 2, 420, 900, 90);
+            // Author
+            ctx.font = '500 60px Poppins, sans-serif';
+            ctx.fillText(author, canvas.width / 2, canvas.height - 200);
+            // Footer
+            ctx.font = '400 40px Poppins, sans-serif';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.fillText('Powered by Aura', canvas.width / 2, canvas.height - 100);
+            // Download
+            canvas.toBlob(blob => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'Quote_of_the_Day.png';
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+        // Helper: wrap long text
+        function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+            const words = text.split(' ');
+            let line = '';
+            let currentY = y;
+            for (let word of words) {
+                const testLine = line + word + ' ';
+                const metrics = ctx.measureText(testLine);
+                if (metrics.width > maxWidth && word.length > 0) {
+                    ctx.fillText(line, x, currentY);
+                    line = word + ' ';
+                    currentY += lineHeight;
+                } else {
+                    line = testLine;
+                }
+            }
+            ctx.fillText(line, x, currentY);
+        }
+    </script>
+</body>
+</html>
