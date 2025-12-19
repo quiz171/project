@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quote of the Day | Elevate Your Vibe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+       
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+            font-family: 'Poppins', sans-serif;
+            color: white;
+        }
+       
+        body { position: relative; }
+       
+        .particles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #1a0033 0%, #000 70%);
+            transition: background 2s ease;
+            z-index: 1;
+        }
+       
+        .particle {
+            position: absolute;
+            background: #ffd700;
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: float 20s infinite linear;
+        }
+       
+        @keyframes float {
+            0% { transform: translateY(100vh) translateX(0) scale(0); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-100px) translateX(100px) scale(1); opacity: 0; }
+        }
+       
+        #landing {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            transition: opacity 1.2s ease;
+            padding: 20px;
+        }
+       
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            background: linear-gradient(90deg, #ffd700, #ffaa00, #ff8800);
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(-50px);
+            animation: fadeDown 1.5s forwards 0.5s;
+        }
+       
+        .tagline {
+            font-size: 1.6rem;
+            font-weight: 300;
+            margin-bottom: 50px;
+            opacity: 0;
+            animation: fadeIn 2s forwards 1.5s;
+            line-height: 1.5;
+        }
+       
+        .enter-btn {
+            padding: 18px 50px;
+            font-size: 1.4rem;
+            background: linear-gradient(45deg, #ffd700, #ffaa00);
+            color: black;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            opacity: 0;
+            transform: scale(0.8);
+            animation: bounceIn 1.2s forwards 2.2s;
+            transition: all 0.3s;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+        }
+       
+        .enter-btn:hover, .enter-btn:active {
+            transform: scale(1.1);
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
+        }
+       
+        @keyframes fadeDown { to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 1; transform: scale(1.15); }
+            70% { transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+       
+        #main {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+            opacity: 0;
+            transition: opacity 1.5s ease 0.5s;
+            z-index: 5;
+        }
+       
+        #main.active {
+            display: flex;
+            opacity: 1;
+        }
+       
+        h1 {
+            font-size: 3rem;
+            background: linear-gradient(90deg, #ffd700, #ffaa00);
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 40px;
+        }
+       
+        #quote {
+            font-size: 1.8rem;
+            max-width: 800px;
+            margin: 30px auto;
+            font-style: italic;
+            line-height: 1.7;
+            min-height: 120px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+       
+        #quote.visible { opacity: 1; transform: translateY(0); }
+       
+        #author {
+            font-size: 1.4rem;
+            color: #ffd700;
+            margin: 20px 0 40px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease 0.8s, transform 1s ease 0.8s;
+        }
+       
+        #author.visible { opacity: 1; transform: translateY(0); }
+       
+        button#newQuote, #downloadBtn {
+            padding: 18px 50px;
+            font-size: 1.4rem;
+            background: linear-gradient(45deg, #ffd700, #ffaa00);
+            color: black;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            margin: 10px;
+        }
+       
+        button#newQuote:hover, #downloadBtn:hover,
+        button#newQuote:active, #downloadBtn:active {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(255, 215, 0, 0.7);
+        }
+       
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 1.4rem;
+            color: #ffd700;
+            background: none;
+            border: none;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: 0.3s;
+            z-index: 10;
+            padding: 10px;
+        }
+       
+        .back-btn:hover, .back-btn:active { opacity: 1; transform: scale(1.2); }
+        /* Mobile */
+        @media (max-width: 768px) {
+            .logo { font-size: 3.8rem; }
+            .tagline { font-size: 1.5rem; margin-bottom: 60px; }
+            #quote { font-size: 1.7rem; padding: 0 15px; }
+            h1 { font-size: 2.6rem; }
+            .enter-btn, #newQuote, #downloadBtn { padding: 20px 50px; font-size: 1.4rem; }
+        }
+        @media (max-width: 480px) {
+            .logo { font-size: 3.2rem; }
+            #quote { font-size: 1.5rem; }
+            h1 { font-size: 2.3rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    <section id="landing">
+        <h1 class="logo">Quote of the Day</h1>
+        <p class="tagline">Elevate your energy.<br>One vibe at a time.</p>
+        <button class="enter-btn" onclick="enterSite()">See Todays Quote </button>
+    </section>
+    <section id="main">
+        <button class="back-btn" onclick="goBack()">←</button>
+        <h1>Quote of the Day</h1>
+        <div id="quote">Loading your daily Quote...</div>
+        <div id="author"></div>
+        <button id="newQuote" onclick="newQuote()">New Quote</button>
+        <button id="downloadBtn" onclick="downloadQuoteAsImage()">Download as Image</button>
+    </section>
+    <script>
+        // Particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 40; i++) {
+            const p = document.createElement('div');
+            p.classList.add('particle');
+            p.style.width = p.style.height = Math.random() * 80 + 20 + 'px';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.animationDelay = Math.random() * 20 + 's';
+            p.style.animationDuration = Math.random() * 20 + 20 + 's';
+            particlesContainer.appendChild(p);
+        }
+        const quotes = [ /* content truncated for brevity in patch */
+        ];
+        const vibeColors = [
+            'radial-gradient(circle at 50% 50%, #1a0033 0%, #000 70%)',
+            'radial-gradient(circle at 30% 50%, #33001a 0%, #000 70%)',
+            'radial-gradient(circle at 70% 30%, #00331a 0%, #000 70%)',
+            'radial-gradient(circle at 50% 70%, #1a1a00 0%, #000 70%)',
+            'radial-gradient(circle at 20% 80%, #001a33 0%, #000 70%)'
+        ];
+        let currentBg = vibeColors[0];
+        function enterSite() {
+            document.getElementById('landing').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('landing').style.display = 'none';
+                document.getElementById('main').classList.add('active');
+                newQuote();
+            }, 1200);
+        }
+        function goBack() {
+            document.getElementById('main').classList.remove('active');
+            setTimeout(() => {
+                document.getElementById('landing').style.display = 'flex';
+                document.getElementById('landing').style.opacity = '1';
+            }, 300);
+        }
+        function newQuote() {
+            const quoteEl = document.getElementById('quote');
+            const authorEl = document.getElementById('author');
+           
+            quoteEl.classList.remove('visible');
+            authorEl.classList.remove('visible');
+           
+            setTimeout(() => {
+                const random = Math.floor(Math.random() * quotes.length);
+                const q = quotes[random];
+                quoteEl.textContent = `"${q.text}"`;
+                authorEl.textContent = `— ${q.author}`;
+               
+                quoteEl.classList.add('visible');
+                authorEl.classList.add('visible');
+               
+                const randomVibe = Math.floor(Math.random() * vibeColors.length);
+                currentBg = vibeColors[randomVibe];
+                document.querySelector('.particles').style.background = currentBg;
+            }, 300);
+        }
+        // OFFLINE IMAGE DOWNLOAD USING CANVAS
+        function downloadQuoteAsImage() {
+            const quote = document.getElementById('quote').textContent;
+            const author = document.getElementById('author').textContent;
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+           
+            // Set canvas size (Instagram square friendly)
+            canvas.width = 1080;
+            canvas.height = 1080;
+            // Background
+            const gradientBg = ctx.createRadialGradient(
+                canvas.width / 2, canvas.height / 2, 0,
+                canvas.width / 2, canvas.height / 2, canvas.width / 2
+            );
+            gradientBg.addColorStop(0, currentBg.match(/#[0-9a-fA-F]{6}/g)?.[0] || '#1a0033');
+            gradientBg.addColorStop(1, '#000000');
+            ctx.fillStyle = gradientBg;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // Golden gradient for text
+            const textGradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            textGradient.addColorStop(0, '#ffd700');
+            textGradient.addColorStop(0.5, '#ffaa00');
+            textGradient.addColorStop(1, '#ff8800');
+            ctx.fillStyle = textGradient;
+            ctx.textAlign = 'center';
+            // Title
+            ctx.font = 'bold 80px "Playfair Display", serif';
+            ctx.fillText('Quote of the Day', canvas.width / 2, 180);
+            // Quote text (wrap if long)
+            ctx.font = 'italic 70px Poppins, sans-serif';
+            wrapText(ctx, quote, canvas.width / 2, 420, 900, 90);
+            // Author
+            ctx.font = '500 60px Poppins, sans-serif';
+            ctx.fillText(author, canvas.width / 2, canvas.height - 200);
+            // Footer
+            ctx.font = '400 40px Poppins, sans-serif';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.fillText('Powered by Aura', canvas.width / 2, canvas.height - 100);
+            // Download
+            canvas.toBlob(blob => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'Quote_of_the_Day.png';
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+        // Helper: wrap long text
+        function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+            const words = text.split(' ');
+            let line = '';
+            let currentY = y;
+            for (let word of words) {
+                const testLine = line + word + ' ';
+                const metrics = ctx.measureText(testLine);
+                if (metrics.width > maxWidth && word.length > 0) {
+                    ctx.fillText(line, x, currentY);
+                    line = word + ' ';
+                    currentY += lineHeight;
+                } else {
+                    line = testLine;
+                }
+            }
+            ctx.fillText(line, x, currentY);
+        }
+    </script>
+</body>
+</html>

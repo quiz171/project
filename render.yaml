@@ -1,0 +1,8 @@
+services:
+  - type: static_site
+    name: quote-of-the-day
+    repo: https://github.com/quiz171/project.git
+    branch: main
+    staticPublishPath: /
+    buildCommand: ""
+    env: static
